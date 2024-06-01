@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://chgjd1x0u5sbg"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_eth3j"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_eth3j")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
