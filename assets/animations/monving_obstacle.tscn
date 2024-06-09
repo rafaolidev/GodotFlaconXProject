@@ -1,0 +1,32 @@
+[gd_scene load_steps=10 format=3 uid="uid://ureg3ta0uh6o"]
+
+[ext_resource type="Script" path="res://monving_obstacle.gd" id="1_jeyyo"]
+[ext_resource type="ArrayMesh" uid="uid://c57k8cqgfl0br" path="res://assets/models/meteor/source/Meteor_mp/Meteor_mp.obj" id="1_o357q"]
+[ext_resource type="Texture2D" uid="uid://d7eysk7fr8cb" path="res://assets/models/meteor/textures/meteor_Base_Color.png" id="2_e7yxt"]
+[ext_resource type="Texture2D" uid="uid://b18x0tqq7kxmi" path="res://assets/models/meteor/textures/meteor_Mixed_AO.png" id="3_a8rst"]
+[ext_resource type="Texture2D" uid="uid://4kia6syxc1p0" path="res://assets/models/meteor/textures/meteor_Emissive.png" id="4_ytq1l"]
+[ext_resource type="Texture2D" uid="uid://7kbe5sh3tpwr" path="res://assets/models/meteor/textures/meteor_Normal_OpenGL.png" id="5_n345x"]
+[ext_resource type="Texture2D" uid="uid://70i7gj7115d" path="res://assets/models/meteor/textures/meteor_Roughness.png" id="6_j5sur"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1frod"]
+albedo_texture = ExtResource("2_e7yxt")
+roughness_texture = ExtResource("6_j5sur")
+emission_enabled = true
+emission_texture = ExtResource("4_ytq1l")
+normal_enabled = true
+normal_texture = ExtResource("5_n345x")
+ao_enabled = true
+ao_texture = ExtResource("3_a8rst")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_abwdl"]
+points = PackedVector3Array(-0.48075, -0.517499, 0.170522, -0.122988, 0.947089, -0.0223043, -0.12369, 0.953868, -0.0785509, 0.855456, 0.116226, -0.162688, -0.261774, -0.160832, -0.687899, -0.809204, 0.0892658, 0.60968, 0.374993, -0.0494767, 0.641418, -0.931337, 0.366881, -0.106131, 0.346437, -0.600884, -0.160171, 0.424371, 0.526326, 0.551647, -0.288957, 0.614649, -0.631363, 0.679658, 0.448404, -0.465226, -0.620192, 0.862673, 0.115756, 0.263557, -0.573118, 0.391368, -0.0120788, -0.438641, -0.633049, -0.75681, -0.241994, -0.187642, -0.647909, -0.270469, 0.613216, 0.794685, 0.00500987, 0.283341, 0.565541, 0.694448, 0.00542283, -0.287664, 0.226591, 0.721307, -0.234815, -0.66381, -0.189688, 0.596966, -0.326715, -0.382281, -0.936553, -0.135974, 0.341162, -0.204707, 0.803084, 0.362151, 0.349148, -0.0780962, -0.633854, -0.844076, 0.587809, 0.310211, 0.180514, 0.832768, -0.352726, 0.624565, -0.437264, -0.0222974, -0.424103, 0.692987, -0.543529, 0.849702, 0.338483, -0.0502227, -0.206575, -0.550254, -0.522359, -0.0122844, -0.296704, 0.638779)
+
+[node name="MonvingObstacle" type="AnimatableBody3D"]
+script = ExtResource("1_jeyyo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_o357q")
+surface_material_override/0 = SubResource("StandardMaterial3D_1frod")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["NotGoal"]]
+shape = SubResource("ConvexPolygonShape3D_abwdl")

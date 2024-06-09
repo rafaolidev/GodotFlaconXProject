@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://bl8g3yww27pdv"]
+
+[ext_resource type="Texture2D" uid="uid://dlyj0yun7lo85" path="res://assets/animations/mitchell-luo-i1O_Hr6cbWc-unsplash.jpg" id="1_yf3oq"]
+[ext_resource type="Texture2D" uid="uid://naa50dy6bv4o" path="res://assets/texture/gravel_64x64_13.png" id="2_lxsmr"]
+[ext_resource type="PackedScene" uid="uid://chgjd1x0u5sbg" path="res://Player/player.tscn" id="3_2fspt"]
+[ext_resource type="AudioStream" uid="uid://cfq40c1a2ed78" path="res://assets/audio/Kashido - Swan Lake Theme.mp3" id="4_y05oo"]
+[ext_resource type="PackedScene" uid="uid://igjlmla180cd" path="res://assets/animations/animatable_body_3d.tscn" id="5_0g5nh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i10ll"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_w7ed2"]
+sky_material = SubResource("ProceduralSkyMaterial_i10ll")
+
+[sub_resource type="Environment" id="Environment_sphmr"]
+background_mode = 2
+sky = SubResource("Sky_w7ed2")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ewrwq"]
+albedo_texture = ExtResource("1_yf3oq")
+albedo_texture_force_srgb = true
+uv2_offset = Vector3(10, 0, 0)
+uv2_triplanar = true
+uv2_world_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2jj4"]
+albedo_color = Color(0.170996, 0.730063, 0.478328, 1)
+albedo_texture = ExtResource("2_lxsmr")
+uv1_triplanar = true
+
+[sub_resource type="GDScript" id="GDScript_y71nq"]
+script/source = "extends CSGBox3D
+
+
+@export_file(\"*.tscn\") var file_path
+"
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sphmr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.987189, -0.0553001, 0.149664, -0.159448, -0.37602, 0.91279, 0.00579933, -0.92496, -0.38002, 5.79537, 19.1471, -9.41245)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107727, -4, -0.00733948)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="Floor3" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(0.570522, 0.267216, 0, -0.267216, 0.570522, 0, 0, 0, 0.63, -7.14836, 24.7308, -0.978802)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="Floor4" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(-0.612534, 0.574806, 0, -0.574806, -0.612534, 0, 0, 0, 0.84, 5.66379, 28.1352, -0.931206)
+use_collision = true
+size = Vector3(25.0341, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="Floor5" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(-0.484806, -0.402322, 0, 0.402322, -0.484806, 0, 0, 0, 0.63, 14.3166, 24.0312, -0.931206)
+use_collision = true
+size = Vector3(25.0341, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="Floor2" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -18.7141, 12.7255, -0.00733948)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="Floor6" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 19.1103, 12.7255, -0.00733948)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="LandingPad" type="CSGBox3D" parent="." groups=["Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.287, 0.2, -0.0577812)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_s2jj4")
+script = SubResource("GDScript_y71nq")
+file_path = "res://Level/level2.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.865, 12)
+top_level = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_y05oo")
+autoplay = true
+
+[node name="Player" parent="." instance=ExtResource("3_2fspt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9677, 3.70151, -0.15671)
+
+[node name="AnimatableBody3D" parent="." instance=ExtResource("5_0g5nh")]

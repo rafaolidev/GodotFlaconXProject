@@ -1,0 +1,98 @@
+[gd_scene load_steps=18 format=3 uid="uid://bfy3gk3b3sgfv"]
+
+[ext_resource type="PackedScene" uid="uid://chgjd1x0u5sbg" path="res://Player/player.tscn" id="1_4yts3"]
+[ext_resource type="Texture2D" uid="uid://cwp3h5r20kmjv" path="res://assets/texture/peakpx.jpg" id="2_2xkel"]
+[ext_resource type="Texture2D" uid="uid://naa50dy6bv4o" path="res://assets/texture/gravel_64x64_13.png" id="3_d6xd0"]
+[ext_resource type="ArrayMesh" uid="uid://c57k8cqgfl0br" path="res://assets/models/meteor/source/Meteor_mp/Meteor_mp.obj" id="4_vnbx0"]
+[ext_resource type="Texture2D" uid="uid://4kia6syxc1p0" path="res://assets/models/meteor/textures/meteor_Emissive.png" id="5_d5ymx"]
+[ext_resource type="Texture2D" uid="uid://d7eysk7fr8cb" path="res://assets/models/meteor/textures/meteor_Base_Color.png" id="5_kvb1y"]
+[ext_resource type="Texture2D" uid="uid://b18x0tqq7kxmi" path="res://assets/models/meteor/textures/meteor_Mixed_AO.png" id="6_m7rv4"]
+[ext_resource type="Texture2D" uid="uid://7kbe5sh3tpwr" path="res://assets/models/meteor/textures/meteor_Normal_OpenGL.png" id="8_bnrs8"]
+[ext_resource type="Texture2D" uid="uid://70i7gj7115d" path="res://assets/models/meteor/textures/meteor_Roughness.png" id="9_kcs3j"]
+[ext_resource type="PackedScene" uid="uid://igjlmla180cd" path="res://assets/animations/animatable_body_3d.tscn" id="10_4wqiq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i10ll"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_w7ed2"]
+sky_material = SubResource("ProceduralSkyMaterial_i10ll")
+
+[sub_resource type="Environment" id="Environment_sphmr"]
+background_mode = 2
+sky = SubResource("Sky_w7ed2")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ewrwq"]
+albedo_color = Color(0.28485, 0.28485, 0.28485, 1)
+albedo_texture = ExtResource("2_2xkel")
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_offset = Vector3(10, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2jj4"]
+albedo_color = Color(0.170996, 0.730063, 0.478328, 1)
+albedo_texture = ExtResource("3_d6xd0")
+uv1_triplanar = true
+
+[sub_resource type="GDScript" id="GDScript_y71nq"]
+script/source = "extends CSGBox3D
+
+
+@export_file(\"*.tscn\") var file_path
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wmlp7"]
+albedo_texture = ExtResource("5_kvb1y")
+roughness_texture = ExtResource("9_kcs3j")
+emission_enabled = true
+emission_texture = ExtResource("5_d5ymx")
+normal_enabled = true
+normal_texture = ExtResource("8_bnrs8")
+ao_enabled = true
+ao_texture = ExtResource("6_m7rv4")
+
+[node name="Level" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_4yts3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.712, 3.6, -0.15671)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sphmr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.908177, -0.0793397, 0.410999, 0.417174, -0.0909588, 0.904263, -0.03436, 0.992689, 0.115705, 23.1015, 41.2952, 9.72599)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107727, -4, -0.00733948)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="LandingPad" type="CSGBox3D" parent="." groups=["Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.287, 0.2, -0.0577812)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_s2jj4")
+script = SubResource("GDScript_y71nq")
+file_path = "res://Level/level3.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.81998, 12.754)
+top_level = true
+
+[node name="Obstacle" type="MeshInstance3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1.485, 0, 0, 0, 1.485, 0, 0, 0, 1.485, 0.144389, 6.14838, -0.0205498)
+mesh = ExtResource("4_vnbx0")
+surface_material_override/0 = SubResource("StandardMaterial3D_wmlp7")
+
+[node name="StaticBody3D" type="CSGSphere3D" parent="Obstacle" groups=["NotGoal"]]
+transform = Transform3D(0.855, 0, 0, 0, 0.855, 0, 0, 0, 0.855, -0.0892821, 0.107552, 0)
+visible = false
+use_collision = true
+radius = 1.1
+
+[node name="AnimatableBody3D" parent="." instance=ExtResource("10_4wqiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.113, 0.67612, 0.620737)

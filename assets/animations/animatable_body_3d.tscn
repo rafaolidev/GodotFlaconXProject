@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://igjlmla180cd"]
+
+[ext_resource type="ArrayMesh" uid="uid://du875wppfw7h7" path="res://assets/models/uploads_files_3744898_rocket+laucher+pad+.obj" id="1_f58x8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uxa8r"]
+albedo_color = Color(0.329158, 0.329158, 0.329158, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wtg6o"]
+albedo_color = Color(0.176419, 0.176419, 0.176419, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1y1b1"]
+albedo_color = Color(0.306498, 0.185882, 0.0157594, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5qtl"]
+albedo_color = Color(0.0253813, 0.154235, 0.161819, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q7edp"]
+
+[node name="AnimatableBody3D" type="AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6153, 0.707036, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.34, 0, 0, 0, 0.34, 0, 0, 0, 0.34, 0, 0, 0)
+mesh = ExtResource("1_f58x8")
+surface_material_override/0 = SubResource("StandardMaterial3D_uxa8r")
+surface_material_override/1 = SubResource("StandardMaterial3D_wtg6o")
+surface_material_override/11 = SubResource("StandardMaterial3D_1y1b1")
+surface_material_override/21 = SubResource("StandardMaterial3D_i5qtl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(4.06, 0, 0, 0, 0.68, 0, 0, 0, 3.415, 1.39191, -0.352493, 0)
+shape = SubResource("BoxShape3D_q7edp")

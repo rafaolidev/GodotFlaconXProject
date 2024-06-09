@@ -1,0 +1,94 @@
+[gd_scene load_steps=12 format=3 uid="uid://crtktt4lj4er0"]
+
+[ext_resource type="PackedScene" uid="uid://chgjd1x0u5sbg" path="res://Player/player.tscn" id="1_4sarx"]
+[ext_resource type="Texture2D" uid="uid://cwp3h5r20kmjv" path="res://assets/texture/peakpx.jpg" id="2_ci5up"]
+[ext_resource type="Texture2D" uid="uid://naa50dy6bv4o" path="res://assets/texture/gravel_64x64_13.png" id="3_asy4o"]
+[ext_resource type="PackedScene" uid="uid://igjlmla180cd" path="res://assets/animations/animatable_body_3d.tscn" id="4_go2my"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i10ll"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_w7ed2"]
+sky_material = SubResource("ProceduralSkyMaterial_i10ll")
+
+[sub_resource type="Environment" id="Environment_sphmr"]
+background_mode = 2
+sky = SubResource("Sky_w7ed2")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ewrwq"]
+albedo_color = Color(0.28485, 0.28485, 0.28485, 1)
+albedo_texture = ExtResource("2_ci5up")
+uv1_triplanar = true
+uv1_world_triplanar = true
+uv2_offset = Vector3(10, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2jj4"]
+albedo_color = Color(0.170996, 0.730063, 0.478328, 1)
+albedo_texture = ExtResource("3_asy4o")
+uv1_triplanar = true
+
+[sub_resource type="GDScript" id="GDScript_y71nq"]
+script/source = "extends CSGBox3D
+
+
+@export_file(\"*.tscn\") var file_path
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2ctag"]
+albedo_texture = ExtResource("2_ci5up")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 22.6274
+
+[node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sphmr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.908177, -0.0793397, 0.410999, 0.417174, -0.0909588, 0.904263, -0.03436, 0.992689, 0.115705, 23.1015, 41.2952, 9.72599)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107727, -4, -0.00733948)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_ewrwq")
+
+[node name="LandingPad" type="CSGBox3D" parent="." groups=["Goal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.287, 0.2, -0.0577812)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = SubResource("StandardMaterial3D_s2jj4")
+script = SubResource("GDScript_y71nq")
+file_path = "res://Level/level4.tscn"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.81998, 12.754)
+top_level = true
+
+[node name="Obstacle" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107727, 6.11826, -0.00733948)
+use_collision = true
+size = Vector3(4, 2, 3)
+material = SubResource("StandardMaterial3D_2ctag")
+
+[node name="Obstacle2" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.53258, 1.79391, -0.00733948)
+use_collision = true
+size = Vector3(4, 2, 3)
+material = SubResource("StandardMaterial3D_2ctag")
+
+[node name="Obstacle3" type="CSGBox3D" parent="." groups=["NotGoal"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.44373, 9.32966, -0.00733948)
+use_collision = true
+size = Vector3(4, 2, 3)
+material = SubResource("StandardMaterial3D_2ctag")
+
+[node name="Player" parent="." instance=ExtResource("1_4sarx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.712, 3.6, -0.15671)
+
+[node name="AnimatableBody3D" parent="." instance=ExtResource("4_go2my")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.536, 0.622, -0.143755)

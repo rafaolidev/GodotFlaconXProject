@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://chgjd1x0u5sbg"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_eth3j"]
+[ext_resource type="ArrayMesh" uid="uid://d3j570malkojm" path="res://assets/models/SpaceX BFR space/SpaceX Falcon Heavy.obj" id="2_vm6uv"]
+[ext_resource type="AudioStream" uid="uid://6asf03pnkqby" path="res://assets/audio/15_PB_G3D - Audio Files/SFX - Death Explosion.ogg" id="3_bqo2r"]
+[ext_resource type="AudioStream" uid="uid://42qdu8lc8sur" path="res://assets/audio/15_PB_G3D - Audio Files/SFX - Success.ogg" id="4_1hvxq"]
+[ext_resource type="AudioStream" uid="uid://b4y46y22w28l3" path="res://assets/audio/16_PB_G3D - Audio File/SFX - Main engine thrust.ogg" id="5_gg2vy"]
+[ext_resource type="PackedScene" path="res://assets/animations/particles/booster_particles.tscn" id="6_0tfm0"]
+[ext_resource type="PackedScene" path="res://assets/animations/particles/explosion_particles.tscn" id="7_u2jwo"]
+[ext_resource type="PackedScene" uid="uid://bgmwxmi3jps8" path="res://assets/animations/particles/success_particles.tscn" id="8_7knnr"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b17cn"]
+
+[node name="Player" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.620108, 0)
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+max_contacts_reported = 10
+contact_monitor = true
+linear_damp = 1.0
+angular_damp = 3.0
+script = ExtResource("1_eth3j")
+thrust = 1000.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.43, 0, 0, 0, 1.43, 0, 0, 0, 1.43, 0, -1.54261, 0)
+shape = SubResource("CylinderShape3D_b17cn")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.695, 0, 0, 0, 0.695, 0, 0, 0, 0.695, 0, 0.725389, 0)
+shape = SubResource("CylinderShape3D_b17cn")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 447.0
+offset_top = 37.0
+offset_right = 734.0
+offset_bottom = 133.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.024, 0, 0, 0, 0.015, 0, 0, 0, 0.021, 0, 0, 0)
+mesh = ExtResource("2_vm6uv")
+
+[node name="ExplosionAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bqo2r")
+
+[node name="SuccessAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_1hvxq")
+
+[node name="RocketAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("5_gg2vy")
+
+[node name="BoosterParticles" parent="." instance=ExtResource("6_0tfm0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.02332, 0)
+
+[node name="BoosterParticles2" parent="." instance=ExtResource("6_0tfm0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.420649, -3.02332, 0)
+
+[node name="BoosterParticles3" parent="." instance=ExtResource("6_0tfm0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.424031, -3.02332, -0.0502041)
+
+[node name="ExplosionParticles" parent="." instance=ExtResource("7_u2jwo")]
+amount = 80
+
+[node name="SuccessParticles" parent="." instance=ExtResource("8_7knnr")]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

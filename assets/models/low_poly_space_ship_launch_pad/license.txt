@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Space Ship Launch Pad
+* source:	https://sketchfab.com/3d-models/low-poly-space-ship-launch-pad-cf272230d5154672a40902dc262b1c9a
+* author:	Jason_Phillips (https://sketchfab.com/Jason_Phillips)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Space Ship Launch Pad" (https://sketchfab.com/3d-models/low-poly-space-ship-launch-pad-cf272230d5154672a40902dc262b1c9a) by Jason_Phillips (https://sketchfab.com/Jason_Phillips) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
